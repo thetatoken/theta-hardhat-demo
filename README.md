@@ -1,4 +1,4 @@
-# Hardhat Hackathon Boilerplate
+# Theta Hardhat Demo
 
 This repository contains a sample project that you can use as the starting point
 for your Theta DApp project development with the Hardhat suite.
