@@ -23,6 +23,14 @@ Once installed, let's setup the Theta local privatenet with the Theta/Ethereum R
 
 Execute the two commands below to fun the test accounts with some TFuel:
 
+```sh
+export SEQ=`thetacli query account --address=0x2E833968E5bB786Ae419c4d13189fB081Cc43bab | grep sequence | grep -o '[[:digit:]]\+'`
+
+thetacli tx send --chain="privatenet" --from=0x2E833968E5bB786Ae419c4d13189fB081Cc43bab --to=0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A --tfuel=1000 --password=qwertyuiop --seq=$(($SEQ+1))
+```
+
+## Deploy the contract to the local privatenet
+
 Then, on a new terminal, go to the repository's root folder and run this to
 deploy your contract:
 
