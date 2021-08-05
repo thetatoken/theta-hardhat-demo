@@ -25,13 +25,13 @@ module.exports = {
     },
     theta_testnet: {
       url: `https://eth-rpc-api-testnet.thetatoken.org/rpc`,
-      accounts: ["12345"],
+      accounts: ["1111111111111111111111111111111111111111111111111111111111111111"],
       chainId: 365,
       gasPrice: 4000000000000
     },
     theta_mainnet: {
       url: `https://eth-rpc-api.thetatoken.org/rpc`,
-      accounts: ["12345"],
+      accounts: ["1111111111111111111111111111111111111111111111111111111111111111"],
       chainId: 361,
       gasPrice: 4000000000000
     },
