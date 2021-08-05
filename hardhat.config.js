@@ -11,23 +11,27 @@ module.exports = {
     before_timeout: 480000
   },
   
-  defaultNetwork: "ganache",
+  defaultNetwork: "theta_privatenet",
   networks: {
-    ganache: {
-      url: "http://localhost:8545"
-    },
     theta_privatenet: {
       url: "http://localhost:18888/rpc",
       accounts: [
          "1111111111111111111111111111111111111111111111111111111111111111",
          "2222222222222222222222222222222222222222222222222222222222222222",
+         "3333333333333333333333333333333333333333333333333333333333333333",
       ],
       chainId: 366,
       gasPrice: 4000000000000
     },
+    theta_testnet: {
+      url: `https://eth-rpc-api-testnet.thetatoken.org/rpc`,
+      accounts: ["12345"],
+      chainId: 365,
+      gasPrice: 4000000000000
+    },
     theta_mainnet: {
       url: `https://eth-rpc-api.thetatoken.org/rpc`,
-      accounts: [],
+      accounts: ["12345"],
       chainId: 361,
       gasPrice: 4000000000000
     },

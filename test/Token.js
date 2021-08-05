@@ -37,8 +37,6 @@ describe("Token contract", function () {
     Token = await ethers.getContractFactory("Token");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-    console.log("owner", owner.address)
-
     // To deploy our contract, we just have to call Token.deploy() and await
     // for it to be deployed(), which happens onces its transaction has been
     // mined.
@@ -46,7 +44,15 @@ describe("Token contract", function () {
     await hardhatToken.deployed();
 
     // We can interact with the contract by calling `hardhatToken.method()`
-    await hardhatToken.deployed();
+    
+    // NOTE: Theta's account sequence starts from 1, while Ethereum's nonce 
+    //       starts from 0. Due to this descripency, the deployed token address is 
+    //       calculated by ether.js with nonce off by 1. We thus need to deploy **all** 
+    //       smart contracts twice to make sure each calculated contract address actually
+    //       has an contract deployed. In this example, hardhatTokenCopy is deployed
+    //       to hardhatToken.address
+    var hardhatTokenCopy = await Token.deploy();
+    await hardhatTokenCopy.deployed();
   });
 
   // You can nest describe calls to create subsections.
@@ -61,10 +67,6 @@ describe("Token contract", function () {
 
       // This test expects the owner variable stored in the contract to be equal
       // to our Signer's owner.
-
-      a = await hardhatToken.owner()
-      console.log("retrieved owner", a.address)
-
       expect(await hardhatToken.owner()).to.equal(owner.address);
     });
 
@@ -107,6 +109,10 @@ describe("Token contract", function () {
       expect(await hardhatToken.balanceOf(owner.address)).to.equal(
         initialOwnerBalance
       );
+
+      ownerBalance = await hardhatToken.balanceOf(owner.address)
+      console.log("initialOwnerBalance:", initialOwnerBalance)
+      console.log("ownerBalance:", ownerBalance)
     });
 
     it("Should update balances after transfers", async function () {

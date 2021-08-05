@@ -27,6 +27,8 @@ Execute the two commands below to fun the test accounts with some TFuel:
 export SEQ=`thetacli query account --address=0x2E833968E5bB786Ae419c4d13189fB081Cc43bab | grep sequence | grep -o '[[:digit:]]\+'`
 
 thetacli tx send --chain="privatenet" --from=0x2E833968E5bB786Ae419c4d13189fB081Cc43bab --to=0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A --tfuel=1000 --password=qwertyuiop --seq=$(($SEQ+1))
+
+thetacli tx send --chain="privatenet" --from=0x2E833968E5bB786Ae419c4d13189fB081Cc43bab --to=0x1563915e194D8CfBA1943570603F7606A3115508 --tfuel=1000 --password=qwertyuiop --seq=$(($SEQ+2))
 ```
 
 ## Deploy the contract to the local privatenet
