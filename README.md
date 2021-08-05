@@ -33,8 +33,7 @@ thetacli tx send --chain="privatenet" --from=0x2E833968E5bB786Ae419c4d13189fB081
 
 ## Deploy the contract to the local privatenet
 
-Then, on a new terminal, go to the repository's root folder and run this to
-deploy your contract:
+Then, on a new terminal, go to the repository's root folder and run this to deploy your contract:
 
 ```sh
 npx hardhat run scripts/deploy.js --network theta_privatenet
@@ -54,4 +53,41 @@ Finally, we can run the frontend with:
 cd frontend
 npm install
 npm start
+```
+
+## Deploy the contract to the Theta Mainnet
+
+First, edit the `hardhat.config.js` file, replace `"11...1"` with the actual private key of the deployer wallet (should delete the key after use, do NOT commit the private key to GitHub):
+
+```javascript
+    ...
+    theta_mainnet: {
+      url: `https://eth-rpc-api.thetatoken.org/rpc`,
+      accounts: ["1111111111111111111111111111111111111111111111111111111111111111"],
+      chainId: 361,
+      gasPrice: 4000000000000
+    },
+    ...
+```
+
+Next, go to the repository's root folder and run this to deploy your contract:
+
+```sh
+npx hardhat run scripts/deploy.js --network theta_mainnet
+```
+
+## Special Notes on Ethers.js
+
+Note: Ethers.js seems to compute the deployment address of a smart contract via the following formula, instead of reading it from the ETH RPC response:
+
+```python
+contract_addr = sha3(rlp.encode([deployer_address, nonce]))[12:]
+```
+
+Note that Theta's account sequence starts from 1, while Ethereum's account sequence (i.e. nonce) starts from 0. Due to this "off-by-one" discrepancy, the token address calculated by ethers.js does not match with the deployed contract. A **work-around is to deploy each contract twice**. Since the sequence/nonce increments by 1 each time, the second deployment will deploy the contract to the address calcualted by ethers.js. The following pseudo code illustrates the work-around:
+
+```javascript
+token = await Token.Deploy()
+tokenAddr = token.address        // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
+okenCopy = await Token.Deploy() // tokenCopy is deployed to tokenAddr
 ```
