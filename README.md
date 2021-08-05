@@ -1,12 +1,10 @@
 # Theta Hardhat Demo
 
-This repository contains a sample project that you can use as the starting point
-for your Theta DApp project development with the Hardhat suite.
+This repository contains a sample project that you can use as the starting point for your Theta DApp project development with the [Hardhat suite](https://hardhat.org/getting-started/).
 
-## Quick start
+# Deployment and Testing against Theta Local Privatenet
 
-The first things you need to do are cloning this repository and installing its
-dependencies:
+The first things you need to do are cloning this repository and installing its dependencies:
 
 ```sh
 git clone https://github.com/thetatoken/theta-hardhat-demo
@@ -45,7 +43,7 @@ npx hardhat run scripts/deploy.js --network theta_privatenet
 npx hardhat test --network theta_privatenet
 ```
 
-# Run the frontend
+## Run the frontend
 
 Finally, we can run the frontend with:
 
@@ -55,7 +53,7 @@ npm install
 npm start
 ```
 
-## Deploy the contract to the Theta Mainnet
+# Deploy to the Theta Mainnet
 
 First, edit the `hardhat.config.js` file, replace `"11...1"` with the actual private key of the deployer wallet (should delete the key after use, do NOT commit the private key to GitHub):
 
@@ -76,7 +74,7 @@ Next, go to the repository's root folder and run this to deploy your contract:
 npx hardhat run scripts/deploy.js --network theta_mainnet
 ```
 
-## Special Notes on Ethers.js
+# Special Notes on Ethers.js
 
 Note: Ethers.js seems to compute the deployment address of a smart contract via the following formula, instead of reading it from the ETH RPC response:
 
@@ -88,6 +86,6 @@ Note that Theta's account sequence starts from 1, while Ethereum's account seque
 
 ```javascript
 token = await Token.Deploy()
-tokenAddr = token.address        // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
+tokenAddr = token.address       // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
 okenCopy = await Token.Deploy() // tokenCopy is deployed to tokenAddr
 ```

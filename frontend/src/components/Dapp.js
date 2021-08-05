@@ -23,6 +23,9 @@ import { NoTokensMessage } from "./NoTokensMessage";
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
 // to use when deploying to other networks.
 const HARDHAT_NETWORK_ID = '31337';
+const THETA_MAINNET_NETWORK_ID = '0x169';
+const THETA_TESTNET_NETWORK_ID = '0x16d';
+const THETA_PRIVATENET_NETWORK_ID = '0x16e';
 
 // This is an error code that indicates that the user canceled a transaction
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -359,6 +362,12 @@ export class Dapp extends React.Component {
     if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
       return true;
     }
+
+    if (window.ethereum.networkVersion === THETA_MAINNET_NETWORK_ID || window.ethereum.networkVersion === THETA_TESTNET_NETWORK_ID || window.ethereum.networkVersion === THETA_PRIVATENET_NETWORK_ID) {
+      return true;
+    }
+
+    console.log("window.ethereum.networkVersion:", window.ethereum.networkVersion)
 
     this.setState({ 
       networkError: 'Please connect Metamask to Localhost:8545'
