@@ -4,6 +4,8 @@ This repository contains a sample project that you can use as the starting point
 
 # Deployment and Testing against Theta Local Privatenet
 
+## Setup the Hardhat demo project
+
 The first things you need to do are cloning this repository and installing its dependencies:
 
 ```sh
@@ -89,3 +91,5 @@ token = await Token.Deploy()
 tokenAddr = token.address       // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
 okenCopy = await Token.Deploy() // tokenCopy is deployed to tokenAddr
 ```
+
+Please see [here](https://github.com/thetatoken/theta-hardhat-demo/blob/e352fbd2785edbf912e51894e8e63f977f0c018c/test/Token.js#L62) for more details.
