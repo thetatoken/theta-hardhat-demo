@@ -23,7 +23,8 @@ async function main() {
   const token = await Token.deploy();
   await token.deployed();
 
-  console.log("Token address:", token.address);
+  //console.log("Token address:", token.address);
+  console.log("Contract deployed.")
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token);
