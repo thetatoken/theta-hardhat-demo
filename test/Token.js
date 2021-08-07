@@ -37,21 +37,6 @@ describe("Token contract", function () {
     Token = await ethers.getContractFactory("Token");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-    // Note: Ethers.js seems to compute the deployment address of a smart contract via the following formula, instead
-    //       of reading it from the ETH RPC response:
-    //
-    //               contract_addr = sha3(rlp.encode([deployer_address, nonce]))[12:]
-    //
-    //       Note that Theta's account sequence starts from 1, while Ethereum's account sequence (i.e. nonce) 
-    //       starts from 0. Due to this "off-by-one" discrepancy, the token address calculated by ethers.js does not match
-    //       with the deployed contract. A **work-around is to deploy each contract twice**. Since the sequence/nonce
-    //       increments by 1 each time, the second deployment will deploy the contract to the address calcualted by 
-    //       ethers.js. The following pseudo code illustrates the work-around:
-    //
-    //                token = await Token.Deploy()
-    //                tokenAddr = token.address        // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
-    //                tokenCopy = await Token.Deploy() // tokenCopy is deployed to tokenAddr
-
     // To deploy our contract, we just have to call Token.deploy() and await
     // for it to be deployed(), which happens onces its transaction has been
     // mined.
@@ -59,8 +44,7 @@ describe("Token contract", function () {
     await hardhatToken.deployed();
 
     // We can interact with the contract by calling `hardhatToken.method()`
-    var hardhatTokenCopy = await Token.deploy(); // see the note above, deploy hardhatToken again as a work-around for the address mismatch issue  
-    await hardhatTokenCopy.deployed();
+    await hardhatToken.deployed();
   });
 
   // You can nest describe calls to create subsections.
@@ -109,11 +93,9 @@ describe("Token contract", function () {
 
       // Try to send 1 token from addr1 (0 tokens) to owner (1000 tokens).
       // `require` will evaluate false and revert the transaction.
-      // await expect(
-      //   hardhatToken.connect(addr1).transfer(owner.address, 1)
-      // ).to.be.revertedWith("Not enough tokens");
-
-      await hardhatToken.connect(addr1).transfer(owner.address, 1)
+      await expect(
+        hardhatToken.connect(addr1).transfer(owner.address, 1)
+      ).to.be.reverted;
 
       // Owner balance shouldn't have changed.
       expect(await hardhatToken.balanceOf(owner.address)).to.equal(

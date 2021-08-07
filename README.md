@@ -76,20 +76,6 @@ Next, go to the repository's root folder and run this to deploy your contract:
 npx hardhat run scripts/deploy.js --network theta_mainnet
 ```
 
-# Special Notes on Ethers.js
+# Special Notes on Testing with the Ethers.js+Waffle framework
 
-Note: Ethers.js seems to compute the deployment address of a smart contract via the following formula, instead of reading it from the ETH RPC response:
-
-```python
-contract_addr = sha3(rlp.encode([deployer_address, nonce]))[12:]
-```
-
-Note that Theta's account sequence starts from 1, while Ethereum's account sequence (i.e. nonce) starts from 0. Due to this "off-by-one" discrepancy, the token address calculated by ethers.js does not match with the deployed contract. A **work-around is to deploy each contract twice**. Since the sequence/nonce increments by 1 each time, the second deployment will deploy the contract to the address calcualted by ethers.js. The following pseudo code illustrates the work-around:
-
-```javascript
-token = await Token.Deploy()
-tokenAddr = token.address       // tokenAddr is calculated by ethers.js with an "off-by-one" nonce
-okenCopy = await Token.Deploy() // tokenCopy is deployed to tokenAddr
-```
-
-Please see [here](https://github.com/thetatoken/theta-hardhat-demo/blob/e352fbd2785edbf912e51894e8e63f977f0c018c/test/Token.js#L62) for more details.
+Currently the RPC Adaptor does NOT support [non-standard methods](https://cnpmjs.org/package/ganache-core/v/2.3.3) like `evm_snapshot`, `evm_revert`, and `evm_mine`. Thus, test cases using [Fixtures](https://ethereum-waffle.readthedocs.io/en/latest/fixtures.html) (e.g. `waffle.loadFixture()`) are expected to fail when running against the Theta blockchain.
